@@ -100,7 +100,14 @@ export default class ReloadPlugin extends AbstractPlugin {
   }
   generate(comp, done) {
     if(!this.manifest) return done()
-    comp.fileDependencies.push(this.manifestPath)
+    // comp.fileDependencies.push(this.manifestPath)
+    // form https://github.com/wheeljs
+    const {fileDependencies} = comp;
+    if (fileDependencies instanceof Set) {
+      fileDependencies.add(this.manifestPath)
+    } else {
+      fileDependencies.push(this.manifestPath)
+    }
     let source = JSON.stringify(this.manifest)
     comp.assets['manifest.json'] = {
       source: () => source,
