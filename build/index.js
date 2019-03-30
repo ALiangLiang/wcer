@@ -125,11 +125,11 @@ class ReloadPlugin extends abstractPlugin_1.default {
     sourceFactory(...sources) {
         return new webpack_sources_1.ConcatSource(...sources);
     }
-    watcher(comp, done) {
+    watcher(comp) {
         if (!this.server && this.manifestPath) {
             this.server = new socketServer_1.default(this.port);
         }
-        return done();
+        return comp;
     }
     compile(comp) {
         try {
@@ -173,9 +173,9 @@ class ReloadPlugin extends abstractPlugin_1.default {
         }
         comp.assets = Object.assign({}, comp.assets, assets);
     }
-    triggered(comp, done) {
+    triggered(comp) {
         if (!this.server || !this.manifest)
-            return done();
+            return comp;
         let { content_scripts, background } = this.manifest;
         let scripts = background.scripts ? background.scripts : [];
         if (content_scripts && content_scripts.length) {
@@ -201,11 +201,11 @@ class ReloadPlugin extends abstractPlugin_1.default {
             console.log('manifestTimestamp');
             this.server.signRestart();
         }
-        return done();
+        return comp;
     }
-    generate(comp, done) {
+    generate(comp) {
         if (!this.manifest)
-            return done();
+            return comp;
         // comp.fileDependencies.push(this.manifestPath)
         // form https://github.com/wheeljs
         const { fileDependencies } = comp;
@@ -220,14 +220,14 @@ class ReloadPlugin extends abstractPlugin_1.default {
             source: () => source,
             size: () => source.length
         };
-        return done();
+        return comp;
     }
     apply(compiler) {
-        compiler.hooks.watchRun.tap("ReloadPlugin", (comp, done) => this.watcher(comp, done));
+        compiler.hooks.watchRun.tap("ReloadPlugin", (comp) => this.watcher(comp));
         compiler.hooks.compile.tap("ReloadPlugin", (comp) => this.compile(comp));
         compiler.hooks.compilation.tap('ReloadPlugin', (comp) => comp.hooks.afterOptimizeChunkAssets.tap('ReloadPlugin', (chunks) => this.injector(comp, chunks)));
-        compiler.hooks.afterEmit.tap('ReloadPlugin', (comp, done) => this.triggered(comp, done));
-        compiler.hooks.emit.tap('ReloadPlugin', (comp, done) => this.generate(comp, done));
+        compiler.hooks.afterEmit.tap('ReloadPlugin', (comp) => this.triggered(comp));
+        compiler.hooks.emit.tap('ReloadPlugin', (comp) => this.generate(comp));
     }
 }
 exports.default = ReloadPlugin;
