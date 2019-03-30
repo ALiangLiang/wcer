@@ -225,7 +225,7 @@ class ReloadPlugin extends abstractPlugin_1.default {
     apply(compiler) {
         compiler.hooks.watchRun.tap("ReloadPlugin", (comp, done) => this.watcher(comp, done));
         compiler.hooks.compile.tap("ReloadPlugin", (comp) => this.compile(comp));
-        compiler.hooks.compilation.tap('ReloadPlugin', (comp) => comp.plugin('after-optimize-chunk-assets', (chunks) => this.injector(comp, chunks)));
+        compiler.hooks.compilation.tap('ReloadPlugin', (comp) => comp.hooks.afterOptimizeChunkAssets.tap('ReloadPlugin', (chunks) => this.injector(comp, chunks)));
         compiler.hooks.afterEmit.tap('ReloadPlugin', (comp, done) => this.triggered(comp, done));
         compiler.hooks.emit.tap('ReloadPlugin', (comp, done) => this.generate(comp, done));
     }
