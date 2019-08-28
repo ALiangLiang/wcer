@@ -1,7 +1,6 @@
-import * as fs from "fs"
 import Server from "./socketServer"
 import {info, error} from "./logger"
-import {merge, template} from "lodash"
+import {template} from "lodash"
 import AbstractPlugin from "./abstractPlugin"
 import {ConcatSource} from "webpack-sources"
 import {requirePath} from "./tools"

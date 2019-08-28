@@ -1,9 +1,6 @@
-import * as path from "path";
 import * as http from "http";
 import { info, error, warn } from "./logger"
 import * as websocket from "websocket-driver";
-import * as cert from "raw-loader!../ssl/server.crt"
-import * as key from "raw-loader!../ssl/key.pem"
 
 export default class HotReloaderServer {
   private server: http.Server;
