@@ -2,6 +2,7 @@ const path = require("path")
 const pack = require("./package.json")
 
 module.exports = (env = { analyze: false }) => ({
+  mode: process.env.NODE_ENV || 'development',
   target: "node",
   entry: './src/index.ts',
   devtool: "source-map",
@@ -11,7 +12,11 @@ module.exports = (env = { analyze: false }) => ({
     filename: "index.js",
     libraryTarget: "umd"
   },
-  externals: [Object.keys(pack.dependencies) || {}],
+  externals: {
+    chalk: 'chalk',
+    lodash: 'lodash',
+    'webpack-sources': 'webpack-sources'
+  },
   resolve: {
     modules: [path.resolve(__dirname, "src"), "node_modules"],
     mainFiles: ["index"],

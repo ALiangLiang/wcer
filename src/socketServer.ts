@@ -9,7 +9,7 @@ export default class HotReloaderServer {
   private server: http.Server;
   private sockets: {[key:string]: Socket} = {};
   constructor(port: number, host:string = 'localhost') {
-    this.server = http.createServer(function(req, res){ 
+    this.server = http.createServer(function(req, res) { 
       let data = '<h1>WCER</h1><p>Webpack plugin to enable reloading while developing Chrome extensions.</p>'
       res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length})
       res.write(data);

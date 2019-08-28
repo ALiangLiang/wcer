@@ -4,9 +4,9 @@ declare interface Source {
   size(): number;
   map(options: object): void;
   sourceAndMap(options: object): object;
-  node();
+  node(options: object): any;
   listNode();
-  updateHash(hash: string): void;
+  updateHash(hash: any): void;
 }
 declare module "raw-loader*" {
   const str: string;
