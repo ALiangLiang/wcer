@@ -3180,7 +3180,7 @@ const lodash_1 = __webpack_require__(/*! lodash */ "lodash");
 const abstractPlugin_1 = __webpack_require__(/*! ./abstractPlugin */ "./src/abstractPlugin.ts");
 const webpack_sources_1 = __webpack_require__(/*! webpack-sources */ "webpack-sources");
 const tools_1 = __webpack_require__(/*! ./tools */ "./src/tools.ts");
-const client = __webpack_require__(/*! raw-loader!./client.ts */ "./node_modules/raw-loader/dist/cjs.js!./src/client.ts");
+const client_ts_1 = __webpack_require__(/*! raw-loader!./client.ts */ "./node_modules/raw-loader/dist/cjs.js!./src/client.ts");
 let chunkVersions = {};
 let manifestTimestamp;
 class ReloadPlugin extends abstractPlugin_1.default {
@@ -3215,7 +3215,7 @@ class ReloadPlugin extends abstractPlugin_1.default {
         let assets = chunks.reduce((res, chunk) => {
             let [filename] = chunk.files;
             if (/\.js$/.test(filename)) {
-                let source = lodash_1.template(client)({
+                let source = lodash_1.template(client_ts_1.default)({
                     filename,
                     id: chunk.id,
                     name: chunk.name || null,
@@ -3227,7 +3227,7 @@ class ReloadPlugin extends abstractPlugin_1.default {
         }, {});
         if (!background || !(background.page || background.scripts)) {
             let scripts = 'background.reload.js';
-            let source = lodash_1.template(client)({
+            let source = lodash_1.template(client_ts_1.default)({
                 filename: [scripts],
                 id: '-1',
                 name: scripts,

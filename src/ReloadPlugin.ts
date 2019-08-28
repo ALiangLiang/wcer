@@ -5,7 +5,7 @@ import {merge, template} from "lodash"
 import AbstractPlugin from "./abstractPlugin"
 import {ConcatSource} from "webpack-sources"
 import {requirePath} from "./tools"
-import * as client from "raw-loader!./client.ts"
+import client from "raw-loader!./client.ts"
 
 let chunkVersions: object = {}
 let manifestTimestamp: number
